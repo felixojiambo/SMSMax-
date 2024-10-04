@@ -1,0 +1,54 @@
+version: '3.8'
+services:
+
+  # PostgreSQL service
+  postgres:
+    image: postgres:13-alpine
+    environment:
+      POSTGRES_DB: smsmax
+      POSTGRES_USER: smsuser
+      POSTGRES_PASSWORD: smspassword
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  # Zookeeper service (Kafka dependency)
+  zookeeper:
+    image: wurstmeister/zookeeper:3.4.6
+    ports:
+      - "2181:2181"
+
+  # Kafka service
+  kafka:
+    image: wurstmeister/kafka:2.12-2.5.0
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+    depends_on:
+      - zookeeper
+    volumes:
+      - kafka-data:/var/lib/kafka
+
+  # SMS service (your Spring Boot application)
+  sms-service:
+    image: sms-service:latest  # This image should be built using the Dockerfile above
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/smsmax
+      SPRING_DATASOURCE_USERNAME: smsuser
+      SPRING_DATASOURCE_PASSWORD: smspassword
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+    depends_on:
+      - postgres
+      - kafka
+
+volumes:
+  postgres-data:
+  kafka-data:
