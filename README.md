@@ -95,8 +95,8 @@
 
 1. **Clone the Repository**:
    ```bash
-   git clone https://github.com/your-repo/smsmax.git
-   cd smsmax
+   git clone https://github.com/felixojiambo/SMSMax.git
+   cd SMSMax
    ```
 
 2. **Build the Application**:
