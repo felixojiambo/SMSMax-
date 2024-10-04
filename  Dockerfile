@@ -1,0 +1,14 @@
+# Use the official OpenJDK 17 image as the base image
+FROM openjdk:22
+
+# Create a directory inside the container for the application
+WORKDIR /app
+
+# Copy the application jar file into the container
+COPY target/SMSMax.jar app.jar
+
+# Expose the port the application will run on
+EXPOSE 8080
+
+# Run the application using the Java command
+ENTRYPOINT ["java", "-jar", "app.jar"]
