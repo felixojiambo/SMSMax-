@@ -1,5 +1,4 @@
 package com.design.SMSMax.controllers;
-
 import com.design.SMSMax.dtos.ApiResponse;
 import com.design.SMSMax.dtos.SmsRequest;
 import com.design.SMSMax.models.SmsMessage;
@@ -28,7 +27,7 @@ public class SmsController {
 
     @PostMapping("/send")
     @RateLimited
-    public ResponseEntity<?> sendSms(@Valid @RequestBody SmsRequest smsRequest) {
+    public ResponseEntity<?> sendSms( @RequestBody SmsRequest smsRequest) {
         // Create SMS Message entity
         SmsMessage smsMessage = new SmsMessage();
         smsMessage.setPhoneNumber(smsRequest.getPhoneNumber());

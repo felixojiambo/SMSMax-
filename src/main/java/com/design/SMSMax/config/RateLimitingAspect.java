@@ -1,5 +1,6 @@
 package com.design.SMSMax.config;
 
+import com.design.SMSMax.exceptions.RateLimitExceededException;
 import io.github.bucket4j.*;
 import jakarta.servlet.http.HttpServletRequest;
 import org.aspectj.lang.ProceedingJoinPoint;
